@@ -1,16 +1,33 @@
+const jwt = require("jsonwebtoken");
+const enviroments = require("../config/enviroments");
 const Usuario = require("../models/usuarios.model");
 
-const getAll = async (filters) => {
-  const where = {};
+const login = async (body) => {
+  if (!body?.name || !body?.password) {
+    throw new Error("Faltan proveer las credenciales");
+  }
 
-  if (filters.name) where.name = filters.name;
-  if (filters.email) where.email = filters.email;
+  const where = { name: body.name, password: body.password };
 
-  return await Usuario.findAll({ where });
+  const user = await Usuario.findOne({ where });
+
+  if (!user) {
+    throw new Error("Credenciales incorrectas");
+  }
+
+  const userData = user.toJSON();
+  delete userData.password;
+
+  const token = jwt.sign(userData, enviroments.JWTPASSWORD, {
+    expiresIn: "1h",
+  });
+
+  return token;
 };
+
 const create = async (body) => await Usuario.create(body);
 
 module.exports = {
-  getAll,
+  login,
   create,
 };

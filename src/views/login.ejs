@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form id="formulario">
+      <input type="text" name="name" placeholder="Nombre" />
+      <input type="text" name="password" placeholder="Contraseña" />
+      <input type="submit" value="Ingresar" />
+    </form>
+  </body>
+</html>
+
+<script>
+  const formulario = document.getElementById("formulario");
+
+  formulario.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const respuesta = await fetch("/api/usuarios/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: formulario.name.value,
+        password: formulario.password.value,
+      }),
+    });
+
+    const data = await respuesta.json();
+
+    if (respuesta.ok) {
+      document.cookie = `token=${data.token};path=/;max-age=3600`;
+      window.location.href = "/mi-usuario";
+    } else {
+      alert(data.message || "Error en el login");
+    }
+  });
+</script>

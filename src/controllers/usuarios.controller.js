@@ -1,12 +1,23 @@
 const usuarioServices = require("../services/usuarios.services");
 
-const getUsuarios = async (req, res) => {
+const login = async (req, res) => {
   try {
-    const filters = req.query;
+    const { body } = req;
 
-    const data = await usuarioServices.getAll({ ...filters });
+    const token = await usuarioServices.login(body);
 
-    res.status(200).json(data);
+    res.status(200).json({ status: "success", token });
+  } catch (error) {
+    return res
+      .status(401)
+      .json({ status: "failure", message: "Faltan proveer las credenciales" });
+  }
+};
+
+const logout = async (req, res) => {
+  try {
+    res.clearCookie("token", { path: "/" });
+    res.redirect("/login");
   } catch (error) {}
 };
 
@@ -23,6 +34,7 @@ const createUsuarios = (req, res) => {
 };
 
 module.exports = {
-  getUsuarios,
+  login,
+  logout,
   createUsuarios,
 };

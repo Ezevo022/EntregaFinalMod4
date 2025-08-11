@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form id="formulario">
+      <input type="text" name="name" placeholder="Nombre" />
+      <input type="text" name="email" placeholder="Email" />
+      <input type="text" name="password" placeholder="Contraseña" />
+      <input type="submit" value="Registrarse" />
+    </form>
+    <a href="/login">
+      <button>Ingreso de USUARIOS</button>
+    </a>
+  </body>
+</html>
+
+<script>
+  const formulario = document.getElementById("formulario");
+
+  formulario.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const response = await fetch("/api/usuarios/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: formulario.name.value,
+        email: formulario.email.value,
+        password: formulario.password.value,
+      }),
+    });
+    // const data = await response.json();
+
+    // localStorage.setItem("Authorization", data.token);
+  });
+</script>
