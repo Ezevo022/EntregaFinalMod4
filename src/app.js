@@ -5,6 +5,7 @@ const enviroments = require("./config/enviroments");
 const usuariosRoutes = require("./routes/usuarios.routes");
 const viewsRoutes = require("./routes/views.routes");
 const sequelize = require("./config/db");
+const handleErrors = require("./middlewares/error.middlewares");
 
 const app = express();
 
@@ -38,3 +39,6 @@ probarConexion();
 // Routes
 app.use("/api/usuarios", usuariosRoutes);
 app.use("/", viewsRoutes);
+
+// Middleware de Errores
+app.use(handleErrors);

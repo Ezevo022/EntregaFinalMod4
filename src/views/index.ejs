@@ -35,8 +35,16 @@
         password: formulario.password.value,
       }),
     });
-    // const data = await response.json();
 
-    // localStorage.setItem("Authorization", data.token);
+    const data = await response.json();
+
+    if (response.ok) {
+      formulario.name.value = "";
+      formulario.email.value = "";
+      formulario.password.value = "";
+      alert(data.message);
+    } else {
+      alert(data.message || "Error en el registro");
+    }
   });
 </script>

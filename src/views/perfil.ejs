@@ -6,10 +6,93 @@
     <title>Document</title>
   </head>
   <body>
-    <h2>Bienvenido: <%= name %></h2>
+    <form id="formulario">
+      <h2>
+        Bienvenido:
+        <input type="text" name="name" value="<%= name %>" />
+      </h2>
+      <h3>Email: <%= email %></h3>
+      <h3>
+        Contraseña:
+        <input type="text" name="password" placeholder="Contraseña" />
+      </h3>
+      <input type="submit" value="Actualizar Datos" />
+    </form>
 
-    <h3>Email: <%= email %></h3>
+    <button id="btn-borrarUser">BORRAR Usuario</button>
 
-    <a href="/api/usuarios/logout">Logout</a>
+    <a href="/logout">Logout</a>
   </body>
 </html>
+
+<script>
+  const formulario = document.getElementById("formulario");
+  const btnBorrarUser = document.getElementById("btn-borrarUser");
+
+  formulario.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const response = await fetch("/api/usuarios/update", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: formulario.name.value,
+        email: "<%= email %>",
+        password: formulario.password.value,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      alert(data.message);
+      const respuesta = await fetch("/api/usuarios/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: "<%= email %>",
+          password: formulario.password.value,
+        }),
+      });
+
+      const data2 = await respuesta.json();
+
+      if (respuesta.ok) {
+        document.cookie = `token=${data2.token};path=/;max-age=3600`;
+        window.location.href = "/api/usuarios/mi-usuario";
+      } else {
+        alert(data2.message || "Error en el login");
+      }
+    } else {
+      alert(data.message || "Error en la actualizacion");
+    }
+  });
+
+  btnBorrarUser.addEventListener("click", async (event) => {
+    event.preventDefault();
+
+    const response = await fetch("/api/usuarios/delete", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: formulario.name.value,
+        email: "<%= email %>",
+        password: formulario.password.value,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      window.location.href = "/logout";
+    } else {
+      alert(data.message || "Error en el borrado del usuario");
+    }
+  });
+</script>
