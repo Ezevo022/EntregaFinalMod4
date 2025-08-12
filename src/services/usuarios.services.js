@@ -25,7 +25,13 @@ const login = async (body) => {
   return token;
 };
 
-const create = async (body) => await Usuario.create(body);
+const create = async (body) => {
+  const usuarioEncontrado = await Usuario.findOne({
+    where: { email: body.email },
+  });
+  if (usuarioEncontrado) throw new Error("El email esta registrado");
+  await Usuario.create(body);
+};
 
 module.exports = {
   login,

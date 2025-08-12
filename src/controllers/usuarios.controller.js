@@ -1,6 +1,6 @@
 const usuarioServices = require("../services/usuarios.services");
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
   try {
     const { body } = req;
 
@@ -8,9 +8,10 @@ const login = async (req, res) => {
 
     res.status(200).json({ status: "success", token });
   } catch (error) {
-    return res
-      .status(401)
-      .json({ status: "failure", message: "Faltan proveer las credenciales" });
+    // res
+    //   .status(401)
+    //   .json({ status: "failure", message: "Faltan proveer las credenciales" });
+    next(error);
   }
 };
 
@@ -21,7 +22,7 @@ const logout = async (req, res) => {
   } catch (error) {}
 };
 
-const createUsuarios = (req, res) => {
+const createUsuarios = (req, res, next) => {
   try {
     const { body } = req;
 
@@ -30,7 +31,9 @@ const createUsuarios = (req, res) => {
     res
       .status(200)
       .json({ status: "success", message: "Usuario creado", data });
-  } catch (error) {}
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = {
