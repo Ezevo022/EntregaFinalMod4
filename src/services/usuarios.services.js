@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const enviroments = require("../config/enviroments");
 const Usuario = require("../models/usuarios.model");
+const { hashPass, comparePass } = require("../utils/passwordEncrypt");
 
 class HttpError extends Error {
   constructor(message, status) {
@@ -14,15 +15,15 @@ const login = async (body) => {
     throw new HttpError("Faltan proveer las credenciales", 401);
   }
 
-  const where = { email: body.email, password: body.password };
+  const where = { email: body.email };
 
   const user = await Usuario.findOne({ where });
 
-  if (!user) {
-    throw new HttpError("Credenciales incorrectas", 401);
-  }
-
   const userData = user.toJSON();
+
+  if (!comparePass(body.password, userData.password))
+    throw new HttpError("Credenciales incorrectas", 401);
+
   delete userData.password;
 
   const token = jwt.sign(userData, enviroments.JWTPASSWORD, {
@@ -39,12 +40,16 @@ const create = async (body) => {
     where: { email: body.email },
   });
   if (usuarioEncontrado) throw new HttpError("El email esta registrado", 409);
+
+  body.password = hashPass(body.password);
   return await Usuario.create(body);
 };
 
 const update = async (body) => {
   if (!body?.name || !body?.email || !body?.password)
     throw new HttpError("Faltan campos para actualizar", 422);
+
+  body.password = hashPass(body.password);
   return await Usuario.update(body, { where: { email: body.email } });
 };
 

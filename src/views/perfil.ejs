@@ -46,6 +46,8 @@
 
     const data = await response.json();
 
+    // SE REALIZA UN LOGIN DENUEVO PARA ACTUALIZAR EL TOKEN SINO
+    //  NOS QUEDARA INFORMACION DESACTUALIZADA
     if (response.ok) {
       alert(data.message);
       const respuesta = await fetch("/api/usuarios/login", {

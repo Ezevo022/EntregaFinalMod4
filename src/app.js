@@ -24,17 +24,17 @@ app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 
 // Prueba Conexion con DB
-const probarConexion = async () => {
-  try {
-    await sequelize.sync();
+// const probarConexion = async () => {
+//   try {
+//     await sequelize.sync();
 
-    console.log("Conexion establecida");
-  } catch (error) {
-    console.log("Conexion fallida:", error);
-  }
-};
+//     console.log("Conexion establecida");
+//   } catch (error) {
+//     console.log("Conexion fallida:", error);
+//   }
+// };
 
-probarConexion();
+// probarConexion();
 
 // Routes
 app.use("/api/usuarios", usuariosRoutes);
