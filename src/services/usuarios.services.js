@@ -34,8 +34,6 @@ const login = async (body) => {
 };
 
 const create = async (body) => {
-  if (!body?.name || !body?.email || !body?.password)
-    throw new HttpError("Faltan campos para el registro", 422);
   const usuarioEncontrado = await Usuario.findOne({
     where: { email: body.email },
   });
@@ -46,9 +44,6 @@ const create = async (body) => {
 };
 
 const update = async (body) => {
-  if (!body?.name || !body?.email || !body?.password)
-    throw new HttpError("Faltan campos para actualizar", 422);
-
   body.password = hashPass(body.password);
   return await Usuario.update(body, { where: { email: body.email } });
 };
