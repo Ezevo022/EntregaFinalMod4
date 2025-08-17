@@ -11,7 +11,6 @@ const isLogin = (req, res, next) => {
       return res.status(401).json({
         status: "Failure",
         message: "Token INVALIDO",
-        error: error.message,
       });
     }
 

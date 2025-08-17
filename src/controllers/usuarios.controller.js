@@ -6,17 +6,21 @@ const login = async (req, res, next) => {
 
     const token = await usuarioServices.login(body);
 
-    res.status(200).json({ status: "success", token });
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false, // en producción debería ser true (HTTPS)
+      maxAge: 1000 * 60 * 60,
+    });
+    res.status(200).json({ status: "success" });
   } catch (error) {
     next(error);
   }
 };
 
-const getUsuario = async (req, res, next) => {
+const getUsuario = (req, res, next) => {
   try {
     const { name, email } = req.user;
-
-    res.render("perfil.ejs", { name, email });
+    res.json({ name, email });
   } catch (error) {
     next(error);
   }

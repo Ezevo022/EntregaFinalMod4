@@ -64,8 +64,7 @@
       const data2 = await respuesta.json();
 
       if (respuesta.ok) {
-        document.cookie = `token=${data2.token};path=/;max-age=3600`;
-        window.location.href = "/api/usuarios/mi-usuario";
+        window.location.href = "/mi-usuario";
       } else {
         alert(data2.message || "Error en el login");
       }

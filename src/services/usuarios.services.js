@@ -3,6 +3,8 @@ const enviroments = require("../config/enviroments");
 const Usuario = require("../models/usuarios.model");
 const { hashPass, comparePass } = require("../utils/passwordEncrypt");
 
+// Se crea clase para crear mas facil errores
+
 class HttpError extends Error {
   constructor(message, status) {
     super(message);
