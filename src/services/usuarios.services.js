@@ -21,6 +21,8 @@ const login = async (body) => {
 
   const user = await Usuario.findOne({ where });
 
+  if (!user) throw new HttpError("Credenciales incorrectas", 401);
+
   const userData = user.toJSON();
 
   if (!comparePass(body.password, userData.password))
