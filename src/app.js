@@ -20,6 +20,7 @@ app.use("/public", express.static("public"));
 app.use(cors());
 app.use(cookieParser());
 
+// Vistas para utilizar la API
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 

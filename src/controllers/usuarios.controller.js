@@ -6,6 +6,7 @@ const login = async (req, res, next) => {
 
     const token = await usuarioServices.login(body);
 
+    // Se setea la cookie desde la API para hacerla mas segura
     res.cookie("token", token, {
       httpOnly: true,
       secure: false, // en producción debería ser true (HTTPS)

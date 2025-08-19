@@ -28,6 +28,7 @@ const login = async (body) => {
   if (!comparePass(body.password, userData.password))
     throw new HttpError("Credenciales incorrectas", 401);
 
+  // Se borra password del token ya que no es necesario pasarlo
   delete userData.password;
 
   const token = jwt.sign(userData, enviroments.JWTPASSWORD, {

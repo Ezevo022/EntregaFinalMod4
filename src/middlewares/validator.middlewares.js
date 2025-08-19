@@ -10,6 +10,7 @@ const validatePers = [
   (req, res, next) => {
     const errors = validationResult(req);
 
+    // En caso de tener errores se concatenan para mostrar en un solo msj
     if (!errors.isEmpty()) {
       const error = new Error(
         errors
