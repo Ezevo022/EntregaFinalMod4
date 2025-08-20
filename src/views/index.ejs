@@ -1,20 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Registro</title>
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <form id="formulario">
-      <input type="text" name="name" placeholder="Nombre" />
-      <input type="text" name="email" placeholder="Email" />
-      <input type="text" name="password" placeholder="Contraseña" />
-      <input type="submit" value="Registrarse" />
-    </form>
-    <a href="/login">
-      <button>Ingreso de USUARIOS</button>
-    </a>
+    <div class="container">
+      <h1>Registro de Usuario</h1>
+      <form id="formulario" class="form">
+        <input type="text" name="name" placeholder="Nombre" />
+        <input type="text" name="email" placeholder="Email" />
+        <input type="text" name="password" placeholder="Contraseña" />
+        <input type="submit" value="Registrarse" />
+      </form>
+      <a href="/login" class="link">
+        <button type="button">Ingreso de Usuarios</button>
+      </a>
+    </div>
   </body>
 </html>
 

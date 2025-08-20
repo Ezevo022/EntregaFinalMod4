@@ -16,7 +16,7 @@ app.listen(PORT, () => console.log("Server UP en port:", PORT));
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/public", express.static("public"));
+app.use(express.static("public"));
 app.use(cors());
 app.use(cookieParser());
 
